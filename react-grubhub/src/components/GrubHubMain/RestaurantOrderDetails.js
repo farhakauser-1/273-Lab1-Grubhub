@@ -104,13 +104,16 @@ class RestaurantOrderDetails extends Component {
         <table class='table'>
           <thead>
             <tr>
-              <th scope='Restaurant'>Restaurant</th>
+              <th scope='Restaurant'>
+                Restaurants which have {this.state.searchtext}
+              </th>
             </tr>
           </thead>
           <tbody>
             {this.state.item.map(it => (
               <tr>
                 <button
+                  className='table table-light m-3'
                   id={JSON.parse(it).restid}
                   value={JSON.parse(it).RestaurantName}
                   onClick={this.GotoRestDetails}

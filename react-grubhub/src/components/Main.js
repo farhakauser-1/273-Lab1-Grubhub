@@ -7,6 +7,7 @@ import user from './CreateUser'
 import owner from './OwnerPages/CreateOwner'
 import OwnerLogin from './OwnerPages/OwnerLogin'
 import UserProfile from './UserProfile'
+import OwnerProfile from './OwnerPages/OwnerProfile'
 import Navbar from './LandingPage/Navbar'
 import GHNav from './GrubHubMain/GHNav'
 import GrubHubHome from './GrubHubMain/GrubHubHome'
@@ -47,6 +48,7 @@ class Main extends Component {
           <Route path='/owner/updateitem' exact component={Updateitem} />
           <Route path='/owner/owner' exact component={owner} />
           <Route path='/owner/additems/' component={AddItems} />
+          <Route path='/owner/ownerprofile' exact component={OwnerProfile} />
           <Route
             path='/owner/allorderstorest'
             component={AllOrderstoRestaurants}

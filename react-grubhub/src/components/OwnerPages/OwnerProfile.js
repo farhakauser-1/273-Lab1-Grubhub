@@ -4,7 +4,7 @@ import cookie from 'react-cookies'
 import axios from 'axios'
 import { Redirect } from 'react-router-dom'
 
-export default class UserProfile extends Component {
+export default class OwnerProfile extends Component {
   constructor (props) {
     super(props)
     this.state = {
@@ -12,7 +12,7 @@ export default class UserProfile extends Component {
       EmailID: '',
       password: '',
       Phone: '',
-      userid: localStorage.getItem('userid')
+      restid: localStorage.getItem('restid')
     }
     this.submitUserProfile = this.submitUserProfile.bind(this)
     this.NameChangeHandler = this.NameChangeHandler.bind(this)
@@ -25,17 +25,17 @@ export default class UserProfile extends Component {
     console.log(x)
     console.log('InDID Mount')
     axios
-      .get(`http://localhost:3100/userprofile/${this.state.userid}`)
+      .get(`http://localhost:3100/ownerprofile/${this.state.restid}`)
       .then(response => {
         console.log('populate')
         console.log(response.data)
         var values = response.data
         this.setState({
-          Name: values.nameB,
-          EmailID: values.emailB,
-          password: values.passwordB,
-          Phone: values.phoneB,
-          userid: localStorage.getItem('userid')
+          Name: values.nameO,
+          EmailID: values.emailO,
+          password: values.passwordO,
+          Phone: values.phoneO,
+          restid: localStorage.getItem('restid')
         })
       })
   }
@@ -64,18 +64,18 @@ export default class UserProfile extends Component {
     // prevent page from refresh
     e.preventDefault()
     const data = {
-      userid: localStorage.getItem('userid'),
+      restid: localStorage.getItem('restid'),
       Name: this.state.Name,
       EmailID: this.state.EmailID,
       password: this.state.password,
       Phone: this.state.Phone
     }
     console.log('In update')
-    axios.post('http://localhost:3100/updateuser', data).then(response => {
+    axios.post('http://localhost:3100/updateowner', data).then(response => {
       // update the state with the response data
 
       console.log('updated user profile' + response.data[0])
-      this.props.history.push('/buyer/userprofile')
+      this.props.history.push('/owner/ownerprofile')
     })
     {
     }
@@ -84,15 +84,15 @@ export default class UserProfile extends Component {
   render () {
     const existsFlag = this.state.existsFlag
     let redirectVar = null
-    if (!cookie.load('cookie')) {
-      redirectVar = <Redirect to='/buyer/login' />
+    if (!cookie.load('owner')) {
+      redirectVar = <Redirect to='/owner/ownerlogin' />
     }
     return (
       <div>
         <br />
         <div className='container' align='center'>
           <h1>Your profile</h1>
-          <form action='http://localhost:3000/buyer'>
+          <form action='http://localhost:3000/owner/'>
             {redirectVar}
             <img
               src='https://www.eirim.ie/eirim2017/wp-content/uploads/2016/09/dummy-profile-pic.jpg'

@@ -219,6 +219,24 @@ app.get(`/userprofile/:idB`, (req, res) => {
     }
   })
 })
+app.get(`/ownerprofile/:idO`, (req, res) => {
+  console.log('Get owner profile')
+  console.log(req.body)
+  var query = util.format(
+    "SELECT * FROM owners where idO='%d';",
+    req.params.idO
+  )
+
+  queryHelper.executeQuery(query, (err, result) => {
+    if (err) {
+      console.log(err)
+      res.end('Failed')
+    } else {
+      console.log(result[0])
+      res.send(result[0])
+    }
+  })
+})
 app.post(`/updateuser`, (req, res) => {
   console.log('Update user profile')
   console.log(req.body)
@@ -230,6 +248,32 @@ app.post(`/updateuser`, (req, res) => {
     req.body.password,
     req.body.Phone,
     req.body.userid
+  )
+
+  queryHelper.executeQuery(query, (err, result) => {
+    console.log('camjgjhg')
+    if (err) {
+      console.log(err)
+      res.end('Failed')
+      console.log('dwaf')
+    } else {
+      console.log(result)
+      console.log('Updated data')
+      res.end('updatedData')
+    }
+  })
+})
+app.post(`/updateowner`, (req, res) => {
+  console.log('Update owner profile')
+  console.log(req.body)
+  var updatedData = req.body
+  var query = util.format(
+    "UPDATE owners SET nameO='%s',emailO='%s',passwordO='%s', phoneO='%d' WHERE idO ='%d';",
+    req.body.Name,
+    req.body.EmailID,
+    req.body.password,
+    req.body.Phone,
+    req.body.restid
   )
 
   queryHelper.executeQuery(query, (err, result) => {
@@ -361,6 +405,7 @@ app.post('/insertitem', (req, res) => {
       res.end('Failed')
     } else {
       console.log(result)
+      res.writeHead(200, { 'Content-Type': 'text/html' })
       res.end('Success')
     }
   })
@@ -380,6 +425,7 @@ app.post('/deleteitem', (req, res) => {
       res.end('Failed')
     } else {
       console.log(result)
+      res.writeHead(200, { 'Content-Type': 'text/html' })
       res.end('Success')
     }
   })
@@ -402,6 +448,7 @@ app.post('/updateitem', (req, res) => {
       res.end('Failed')
     } else {
       console.log(result)
+      res.writeHead(200, { 'Content-Type': 'text/html' })
       res.end('Success')
     }
   })
@@ -439,6 +486,7 @@ app.post('/updateorderstatus', (req, res) => {
       res.end('Failed')
     } else {
       console.log(result)
+      res.writeHead(200, { 'Content-Type': 'text/html' })
       res.end('Success')
     }
   })
@@ -459,6 +507,42 @@ app.get(`/userorders/:userid`, (req, res) => {
       console.log(JSON.stringify(result))
       res.send(JSON.stringify(result))
     }
+  })
+})
+app.get(`/Alluserorders/`, (req, res) => {
+  console.log('Get user profile')
+  var query = util.format('SELECT * FROM orders;')
+
+  queryHelper.executeQuery(query, (err, result) => {
+    res.writeHead(200, {
+      'Content-Type': 'application/json'
+    })
+
+    res.send(JSON.stringify(result))
+  })
+})
+app.get(`/AllITEMS/`, (req, res) => {
+  console.log('Get user profile')
+  var query = util.format('SELECT * FROM items;')
+
+  queryHelper.executeQuery(query, (err, result) => {
+    res.writeHead(200, {
+      'Content-Type': 'application/json'
+    })
+
+    res.send(JSON.stringify(result))
+  })
+})
+app.get(`/AllRestaurants/`, (req, res) => {
+  console.log('Get user profile')
+  var query = util.format('SELECT * FROM owners;')
+
+  queryHelper.executeQuery(query, (err, result) => {
+    res.writeHead(200, {
+      'Content-Type': 'application/json'
+    })
+
+    res.send(JSON.stringify(result))
   })
 })
 app.listen(3100, () => console.log('server started on port 3100'))
