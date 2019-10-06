@@ -98,7 +98,7 @@ class CreateOwner extends Component {
       <div>
         <br />
         <div className="container" align="center">
-          <h1>User Sign Up</h1>
+          <h1>Restaurant Sign Up</h1>
           <form action="http://127.0.0.1:3000/login" method="post">
             {redirectVar}
             <div style={{ width: "30%" }} className="form-group">

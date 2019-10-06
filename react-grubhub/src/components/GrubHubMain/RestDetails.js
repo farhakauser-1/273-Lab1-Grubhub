@@ -65,10 +65,12 @@ class RestDetails extends Component {
   };
   placeorder = e => {
     console.log("creating order");
+    localStorage.setItem("cart", JSON.stringify(this.state.ITEMLIST));
     const data = {
       placedby: localStorage.getItem("username"),
       userid: localStorage.getItem("userid"),
-      RestaurantName: localStorage.getItem("SelectedRestaurant")
+      RestaurantName: localStorage.getItem("SelectedRestaurant"),
+      placeditem: localStorage.getItem("cart")
     };
     console.log(data);
     axios.post(`http://localhost:3100/createorder/`, data).then(response => {
