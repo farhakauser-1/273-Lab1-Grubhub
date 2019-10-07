@@ -40,7 +40,7 @@ class OwnerNavbar extends Component {
       <div>
         <nav class='navbar navbar-expand-lg navbar-light bg-light'>
           <a class='navbar-brand' href='#'>
-            GRUBHUB
+            <font color='red'> GRUBHUB </font>
           </a>
           <button
             class='navbar-toggler'
@@ -91,7 +91,7 @@ class OwnerNavbar extends Component {
                   </a>
                   <div class='dropdown-divider' />
                   <a class='dropdown-item' href='/owner/allorderstorest'>
-                    VIEW ORDERS
+                    ORDER STATUS
                   </a>
                 </div>
               </li>

@@ -112,7 +112,7 @@ class CreateOwner extends Component {
                 name='Name'
                 onChange={this.NameChangeHandler}
                 placeholder='Name'
-                required
+                required='required'
               />
             </div>
             <br />
@@ -123,7 +123,7 @@ class CreateOwner extends Component {
                 name='EmailID'
                 onChange={this.EmailIDChangeHandler}
                 placeholder='EmailID'
-                required
+                required='required'
               />
             </div>
             <br />
@@ -165,7 +165,7 @@ class CreateOwner extends Component {
             <br />
             <div style={{ width: '30%' }}>
               <button
-                className='btn btn-success'
+                className='btn btn-danger'
                 type='submit'
                 onClick={this.submitCreate}
               >

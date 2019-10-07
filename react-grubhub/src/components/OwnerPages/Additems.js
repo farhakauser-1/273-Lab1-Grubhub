@@ -34,29 +34,31 @@ class AddItems extends Component {
       })
   }
   addToMenu = e => {
-    e.preventDefault()
-    var dummy = this.state.ITEMLIST
-    var data = {
-      itemname: this.state.itemname,
-      description: this.state.description,
-      price: this.state.price,
-      RestaurantName: localStorage.getItem('RestaurantName'),
-      restid: localStorage.getItem('restid')
-    }
-    console.log(data)
-    axios.post(`http://localhost:3100/insertitem/`, data).then(response => {
-      console.log('Onclick')
-      console.log(dummy)
-      console.log(response.data)
-      if (response.data == 'Success') {
-        dummy.push(data)
-        this.setState({ ITEMLIST: dummy })
-        console.log(dummy)
+    if (this.state.itemname && this.state.description && this.state.price) {
+      e.preventDefault()
+      var dummy = this.state.ITEMLIST
+      var data = {
+        itemname: this.state.itemname,
+        description: this.state.description,
+        price: this.state.price,
+        RestaurantName: localStorage.getItem('RestaurantName'),
+        restid: localStorage.getItem('restid')
       }
-    })
-    this.setState({ itemname: '' })
-    this.setState({ description: '' })
-    this.setState({ price: '' })
+      console.log(data)
+      axios.post(`http://localhost:3100/insertitem/`, data).then(response => {
+        console.log('Onclick')
+        console.log(dummy)
+        console.log(response.data)
+        if (response.data == 'Success') {
+          dummy.push(data)
+          this.setState({ ITEMLIST: dummy })
+          console.log(dummy)
+        }
+      })
+      this.setState({ itemname: '' })
+      this.setState({ description: '' })
+      this.setState({ price: '' })
+    }
   }
   updateItem (it) {
     localStorage.setItem('updateitem', JSON.stringify(it))
@@ -180,7 +182,7 @@ class AddItems extends Component {
                     type='text'
                     onChange={this.handleChange}
                     value={this.state.itemname}
-                    required
+                    required='required'
                   />
                 </td>
                 <td>
@@ -189,7 +191,7 @@ class AddItems extends Component {
                     type='text'
                     value={this.state.description}
                     onChange={this.handleChange}
-                    required
+                    required='required'
                   />
                 </td>
                 <td>

@@ -7,20 +7,20 @@ chai.use(chaiHttp)
 var app = 'http://localhost:3100'
 
 describe('Test scenario', function () {
-  it('Test case', function () {
+  it('orders placed', function () {
     chai
       .request(app)
-      .get('/AllRestaurants/')
+      .get('/Alluserorders/')
       .end(function (err, res) {
         assert.equal('Success', 'Success')
       })
   })
 })
 describe('Test scenario 2', function () {
-  it('Test case', function () {
+  it('Fetch all items', function () {
     chai
       .request(app)
-      .get('/Allitems/')
+      .get('/AllITEMS/')
       .end(function (err, res) {
         assert.equal('Success', 'Success')
       })
@@ -28,7 +28,7 @@ describe('Test scenario 2', function () {
 })
 
 describe('Test scenario 3', function () {
-  it('Test case', function () {
+  it('Get Restaurant List', function () {
     chai
       .request(app)
       .get('/AllRestaurants/')
@@ -39,7 +39,7 @@ describe('Test scenario 3', function () {
 })
 
 describe('Test scenario 4', function () {
-  it('Test case', function () {
+  it('Insert Items into menu', function () {
     chai
       .request(app)
       .post('/insertitems/')
@@ -56,12 +56,12 @@ describe('Test scenario 4', function () {
   })
 })
 describe('Test scenario 5', function () {
-  it('Test case', function () {
+  it('Update Order Status', function () {
     chai
       .request(app)
       .post('/updateorderstatus/')
       .send({ orderstatus: 'Placed', orderid: 6 })
-      .end(function (err, res) {
+      .end(function (err, res, body) {
         assert.equal('Success', 'Success')
       })
   })

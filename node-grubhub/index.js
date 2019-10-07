@@ -6,6 +6,7 @@ var session = require('express-session')
 var cookieParser = require('cookie-parser')
 var cors = require('cors')
 var util = require('util')
+var passwordHash = require('password-hash')
 
 const app = express()
 
@@ -65,10 +66,6 @@ connection.connect(err => {
 app.post('/login', (req, res) => {
   console.log('Buyer Log In')
   console.log(req.body)
-  /* var fetchRow =
-    "select emailB,passwordB from users where emailB='" +
-    req.body.username +
-    "';"; */
   var sql = util.format(
     'select idB,nameB,emailB,passwordB from users where emailB = "%s";',
     req.body.username
@@ -83,7 +80,9 @@ app.post('/login', (req, res) => {
       res.end('Email Id not found')
     } else {
       console.log('check password now')
-      if (req.body.password === result[0].passwordB) {
+      var hashedpwd = result[0].passwordB
+
+      if (passwordHash.verify(req.body.password, hashedpwd)) {
         var user = result[0]
         res.cookie('cookie', user.idB, {
           maxAge: 900000,
@@ -104,15 +103,14 @@ app.post('/buyersignup', (req, res) => {
   console.log('Buyer Sign Up')
   console.log(req.body)
   var x = req.body
-  /* var query =
-    "INSERT INTO users(nameB,emailB,passwordB) VALUES('" +
-    x +
-    "','email','password');"; */
+
+  var hashedpassword = passwordHash.generate(x.createpassword)
+
   var query = util.format(
     "INSERT INTO users(nameB,emailB,passwordB) VALUES('%s','%s','%s')",
     x.Name,
     x.EmailID,
-    x.createpassword
+    hashedpassword
   )
 
   queryHelper.executeQuery(query, (err, result) => {
@@ -146,7 +144,11 @@ app.post('/ownerlogin', (req, res) => {
       res.end('Email Id not found')
     } else {
       console.log('check password now')
-      if (req.body.password === result[0].passwordO) {
+      var hashedpwd = result[0].passwordO
+      console.log(hashedpwd)
+      console.log(passwordHash.verify(req.body.password, hashedpwd))
+
+      if (passwordHash.verify(req.body.password, hashedpwd)) {
         var owner = result[0]
         console.log(owner)
         res.cookie('owner', owner.idO, {
@@ -186,11 +188,12 @@ app.post('/ownersignup', (req, res) => {
   console.log('Owner Sign Up')
   console.log(req.body)
   var x = req.body
+  var hashedpassword = passwordHash.generate(x.createpassword)
   var query = util.format(
     "INSERT INTO owners(nameO,emailO,passwordO,RestaurantName,RestaurantZipCode) VALUES('%s','%s','%s','%s','%s')",
     x.Name,
     x.EmailID,
-    x.createpassword,
+    hashedpassword,
     x.RestaurantName,
     x.RestaurantZipCode
   )
@@ -339,7 +342,7 @@ app.get(`/restitems/:restname`, (req, res) => {
   })
 })
 app.post('/createorder', (req, res) => {
-  console.log('Owner Sign Up')
+  console.log('CREATE ORDER')
   console.log(req.body)
   var x = req.body
   var query = util.format(

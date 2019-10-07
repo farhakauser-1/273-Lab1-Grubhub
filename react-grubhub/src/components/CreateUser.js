@@ -117,7 +117,7 @@ class CreateUser extends Component {
             <div>{UserCreated ? 'Your GrubHub UserID is Created' : ' '} </div>
             <br />
             <div style={{ width: '30%' }}>
-              <button className='btn btn-success' type='submit'>
+              <button className='btn btn-danger' type='submit'>
                 Create
               </button>
             </div>

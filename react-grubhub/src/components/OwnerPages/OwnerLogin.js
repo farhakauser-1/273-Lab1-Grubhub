@@ -41,41 +41,43 @@ class OwnerLogin extends Component {
   }
   // submit Login handler to send a request to the node backend
   submitLogin = e => {
-    var headers = new Headers()
-    // prevent page from refresh
-    e.preventDefault()
-    const data = {
-      username: this.state.username,
-      password: this.state.password
-    }
-    // set the with credentials to true
-    axios.defaults.withCredentials = true
-    // make a post request with the user data
-    axios.post('http://localhost:3100/ownerlogin', data).then(response => {
-      console.log('Status Code : ', response)
-      if (response.data === 'Incorrect password') {
-        console.log('Setting auth flag- false[Incorrect password]')
-        this.setState({
-          authFlag: false,
-          isInvalid: true
-        })
-      } else if (response.data === 'Email Id not found') {
-        console.log('Setting auth flag- false[Invalid Email ID]')
-        this.setState({
-          authFlag: false,
-          isInvalid: true
-        })
-      } else {
-        console.log('Setting auth flag- true')
-        localStorage.setItem('restid', response.data.idO)
-        localStorage.setItem('RestaurantName', response.data.RestaurantName)
-
-        console.log(response.data.idO)
-        this.setState({
-          authFlag: true
-        })
+    if (this.state.username && this.state.password) {
+      var headers = new Headers()
+      // prevent page from refresh
+      e.preventDefault()
+      const data = {
+        username: this.state.username,
+        password: this.state.password
       }
-    })
+      // set the with credentials to true
+      axios.defaults.withCredentials = true
+      // make a post request with the user data
+      axios.post('http://localhost:3100/ownerlogin', data).then(response => {
+        console.log('Status Code : ', response)
+        if (response.data === 'Incorrect password') {
+          console.log('Setting auth flag- false[Incorrect password]')
+          this.setState({
+            authFlag: false,
+            isInvalid: true
+          })
+        } else if (response.data === 'Email Id not found') {
+          console.log('Setting auth flag- false[Invalid Email ID]')
+          this.setState({
+            authFlag: false,
+            isInvalid: true
+          })
+        } else {
+          console.log('Setting auth flag- true')
+          localStorage.setItem('restid', response.data.idO)
+          localStorage.setItem('RestaurantName', response.data.RestaurantName)
+
+          console.log(response.data.idO)
+          this.setState({
+            authFlag: true
+          })
+        }
+      })
+    }
   }
 
   render () {
@@ -100,28 +102,31 @@ class OwnerLogin extends Component {
                 <h2>Restaurant Owner Login</h2>
                 <div>{!isInvalid ? '' : 'Invalid'}</div>
               </div>
-
-              <div className='form-group '>
-                <input
-                  onChange={this.usernameChangeHandler}
-                  type='text'
-                  className='form-control'
-                  name='username'
-                  placeholder='Username'
-                />
-              </div>
-              <div className='form-group'>
-                <input
-                  onChange={this.passwordChangeHandler}
-                  type='password'
-                  className='form-control'
-                  name='password'
-                  placeholder='Password'
-                />
-              </div>
-              <button onClick={this.submitLogin} className='btn btn-primary'>
-                Login
-              </button>
+              <form>
+                <div className='form-group '>
+                  <input
+                    onChange={this.usernameChangeHandler}
+                    type='email'
+                    className='form-control'
+                    name='username'
+                    placeholder='Username'
+                    required
+                  />
+                </div>
+                <div className='form-group'>
+                  <input
+                    onChange={this.passwordChangeHandler}
+                    type='password'
+                    className='form-control'
+                    name='password'
+                    placeholder='Password'
+                    required
+                  />
+                </div>
+                <button onClick={this.submitLogin} className='btn btn-primary'>
+                  Login
+                </button>
+              </form>
             </div>
           </div>
         </div>
